@@ -9,6 +9,10 @@ const Login = () => {
     const navigate = useNavigate();
 
     const handleLogin = async () => {
+        if (pin.length !== 6) {
+            setError('PIN must be 6 digits');
+            return;
+        }
         const response = await fetch('/api/login/', {
             method: 'POST',
             headers: {
@@ -25,7 +29,7 @@ const Login = () => {
 
     return (
         <div>
-            <h1>Login</h1>
+            <h1 data-testid="login-heading">Login</h1>
             <input
                 type="text"
                 value={login}
@@ -36,7 +40,8 @@ const Login = () => {
                 type="password"
                 value={pin}
                 onChange={(e) => setPin(e.target.value)}
-                placeholder="PIN (4 digits)"
+                placeholder="PIN (6 digits)"
+                maxLength="6"
             />
             <button onClick={handleLogin}>Login</button>
             {error && <p>{error}</p>}

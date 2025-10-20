@@ -58,6 +58,7 @@ const Main = () => {
 
     return (
         <div>
+            {user.is_staff && <a href="/admin">Manager Panel</a>}
             <h1>Witaj, {user.first_name} {user.last_name}</h1>
             <h2>Aktualny status: {status}</h2>
 
