@@ -16,6 +16,7 @@ def user_view(request):
         'id': user.id,
         'first_name': user.first_name,
         'last_name': user.last_name,
+        'is_staff': user.is_staff,
     })
 
 @api_view(['GET'])
@@ -38,7 +39,7 @@ def login_view(request):
     pin = request.data.get('pin')
     try:
         user = Uzytkownik.objects.get(username=login_val)
-        if check_password(pin, user.pin):
+        if user.pin and check_password(pin, user.pin):
             login(request, user)
             return Response({'message': 'Login successful'})
     except Uzytkownik.DoesNotExist:
