@@ -5,6 +5,7 @@ const Main = () => {
     const [user, setUser] = useState(null);
     const [status, setStatus] = useState('');
     const [zlecenia, setZlecenia] = useState([]);
+    const [statusy, setStatusy] = useState([]);
     const [showZleceniaModal, setShowZleceniaModal] = useState(false);
 
     useEffect(() => {
@@ -20,6 +21,10 @@ const Main = () => {
             const zleceniaResponse = await fetch('/api/zlecenia/');
             const zleceniaData = await zleceniaResponse.json();
             setZlecenia(zleceniaData);
+
+            const statusyResponse = await fetch('/api/statusy/');
+            const statusyData = await statusyResponse.json();
+            setStatusy(statusyData);
         };
         fetchInitialData();
     }, []);
@@ -63,9 +68,11 @@ const Main = () => {
             <h2>Aktualny status: {status}</h2>
 
             <div>
-                <button onClick={() => handleStatusChange('Praca')}>Praca</button>
-                <button onClick={() => handleStatusChange('Przerwa')}>Przerwa</button>
-                {/* ... other status buttons */}
+                {statusy.map((s) => (
+                    <button key={s.id} onClick={() => handleStatusChange(s.nazwa)}>
+                        {s.nazwa}
+                    </button>
+                ))}
             </div>
 
             {showZleceniaModal && (
