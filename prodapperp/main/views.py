@@ -16,6 +16,7 @@ def user_view(request):
         'id': user.id,
         'first_name': user.first_name,
         'last_name': user.last_name,
+        'is_staff': user.is_staff,
     })
 
 @api_view(['GET'])
@@ -31,6 +32,11 @@ def zlecenia_view(request):
     zlecenia = ZlecenieProdukcyjne.objects.filter(aktywne=True)
     return Response([{'id': z.id, 'nazwa': z.nazwa} for z in zlecenia])
 
+@api_view(['GET'])
+def statusy_view(request):
+    statusy = StatusPracy.objects.all()
+    return Response([{'id': s.id, 'nazwa': s.nazwa} for s in statusy])
+
 @csrf_exempt
 @api_view(['POST'])
 def login_view(request):
@@ -38,7 +44,7 @@ def login_view(request):
     pin = request.data.get('pin')
     try:
         user = Uzytkownik.objects.get(username=login_val)
-        if check_password(pin, user.pin):
+        if user.pin and check_password(pin, user.pin):
             login(request, user)
             return Response({'message': 'Login successful'})
     except Uzytkownik.DoesNotExist:

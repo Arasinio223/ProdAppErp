@@ -12,6 +12,7 @@ urlpatterns = [
     path('api/user/', views.user_view, name='user'),
     path('api/status/<int:user_id>/', views.status_view, name='status'),
     path('api/zlecenia/', views.zlecenia_view, name='zlecenia'),
+    path('api/statusy/', views.statusy_view, name='statusy'),
     path('api/login/', views.login_view, name='login'),
     path('api/change-status/', views.change_status_view, name='change_status'),
     path('import-users/', views.import_users, name='import_users'),
